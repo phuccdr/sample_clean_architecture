@@ -13,7 +13,6 @@ import 'package:demo/data/network/service/api_services.dart' as _i17;
 import 'package:demo/data/repository/auth_repo_imp.dart' as _i777;
 import 'package:demo/domain/repository/auth_repo.dart' as _i747;
 import 'package:demo/domain/usecase/login_use_case.dart' as _i696;
-import 'package:demo/presentation/login/login_cubit.dart' as _i550;
 import 'package:demo/shared/di/app_module.dart' as _i182;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;

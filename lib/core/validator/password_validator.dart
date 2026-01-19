@@ -1,6 +1,6 @@
 import 'package:formz/formz.dart';
 
-enum PasswordValidationError { invalid, empty }
+enum PasswordValidationError { invalid, empty, valid }
 
 class PasswordValidator extends FormzInput<String, PasswordValidationError> {
   const PasswordValidator.pure() : super.pure(''); // giá trị ban đầu.

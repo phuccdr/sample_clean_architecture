@@ -8,6 +8,6 @@ class ErrorText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(errorText, style: AppTextStyle.textError);
+    return Text(errorText, style: AppTextStyle.errorText);
   }
 }

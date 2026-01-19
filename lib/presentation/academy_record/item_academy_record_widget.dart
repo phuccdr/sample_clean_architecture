@@ -1,3 +1,5 @@
+import 'package:demo/core/theme/app_colors.dart';
+import 'package:demo/core/theme/app_text_style.dart';
 import 'package:demo/data/network/model/academy_record.dart';
 import 'package:flutter/material.dart';
 
@@ -15,14 +17,14 @@ class ItemAcademyRecordWidget extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: const Color(0xFFDBF1FF),
+            color: AppColors.backgroundBlueLight,
             borderRadius: BorderRadius.circular(32),
           ),
           child: Container(
             padding: const EdgeInsets.all(4),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(0xFFB8E0F7),
+              color: AppColors.backgroundBlueCircle,
             ),
             child: CircleAvatar(
               radius: 50,
@@ -35,11 +37,9 @@ class ItemAcademyRecordWidget extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           item.name,
-          style: const TextStyle(
-            fontFamily: 'Nunito',
-            fontWeight: FontWeight.w700,
+          style: AppTextStyle.bodySmallBold.copyWith(
             color: Colors.black,
-            fontSize: 16,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ],

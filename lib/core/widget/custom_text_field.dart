@@ -1,3 +1,4 @@
+import 'package:demo/core/theme/app_colors.dart';
 import 'package:demo/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 
@@ -20,31 +21,31 @@ class CustomTextField extends StatelessWidget {
       children: [
         TextFormField(
           onChanged: onChanged,
-          style: AppTextStyle.hintStyle,
-
+          style: AppTextStyle.inputHint,
           decoration: InputDecoration(
             hintText: hintText,
-            error: errorWidget,
-            hintStyle: AppTextStyle.hintStyle,
+            hintStyle: AppTextStyle.inputHint,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Color(0xFFAFAFAF)),
+              borderSide: const BorderSide(color: AppColors.textHint),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Color(0xFFAFAFAF)),
+              borderSide: const BorderSide(color: AppColors.textHint),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.red),
+              borderSide: const BorderSide(color: AppColors.error),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.red),
+              borderSide: const BorderSide(color: AppColors.error),
             ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           ),
         ),
+        if (errorWidget != null) errorWidget!,
       ],
     );
   }

@@ -1,7 +1,6 @@
-import 'package:demo/domain/usecase/login_use_case.dart';
-import 'package:demo/presentation/login/login_state.dart';
-import 'package:demo/core/validator/email_validator.dart';
 import 'package:demo/core/validator/password_validator.dart';
+import 'package:demo/core/validator/phone_number_validator.dart';
+import 'package:demo/presentation/login/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:injectable/injectable.dart';
@@ -11,7 +10,7 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(const LoginState());
 
   void onEmailChange(String value) {
-    final email = EmailValidator.dirty(value);
+    final email = PhoneNumberValidator.dirty(value);
     emit(
       state.copyWith(
         email: email,
@@ -25,19 +24,13 @@ class LoginCubit extends Cubit<LoginState> {
     emit(
       state.copyWith(
         password: password,
-        isValid: Formz.validate([state.email, password]),
+        isValid: Formz.validate([state.phoneNumber, password]),
       ),
     );
   }
 
-  Future<void> login(String userName, String password) async {
-    //emit(Result.loading());
-    //final result = await _loginUseCase.execute(userName, password);
-    //emit(result);
-  }
-
   void onLogin() {
-    final email = EmailValidator.dirty(state.email.value);
+    final email = PhoneNumberValidator.dirty(state.phoneNumber.value);
     final password = PasswordValidator.dirty(state.password.value);
     final isValid = Formz.validate([email, password]);
     emit(

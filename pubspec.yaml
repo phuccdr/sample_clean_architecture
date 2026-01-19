@@ -79,6 +79,17 @@ flutter:
     - assets/images/ic_google.png
     - assets/images/ic_apple.png
     - assets/images/ic_placeholder.png
+    - assets/images/ic_flag_vn.png
+    - assets/images/ic_flag_rus.png
+    - assets/images/ic_level1_english.png
+    - assets/images/ic_level2_english.png
+    - assets/images/ic_level3_english.png
+    - assets/images/ic_level4_english.png
+    - assets/images/ic_fire_work.png
+    - assets/images/ic_monkey_star.png
+    - assets/images/ic_monkey_entername.png
+    - assets/images/ic_monkey_sad.png
+    - assets/images/ic_close_dialog.png
 
   fonts:
     - family: Nunito

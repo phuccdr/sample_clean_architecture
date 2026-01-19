@@ -1,31 +1,30 @@
+import 'package:demo/core/theme/app_colors.dart';
+import 'package:demo/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class AddItemWidget extends StatelessWidget {
-  const AddItemWidget({super.key});
+  final bool isAlone;
+
+  const AddItemWidget({super.key, this.isAlone = false});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 180,
-          alignment: Alignment.center,
-          padding: EdgeInsets.all(30),
+          padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(36),
-            color: Color(0xFFF2F4F7),
+            color: AppColors.backgroundLight,
+            borderRadius: BorderRadius.circular(32),
           ),
-          child: Icon(size: 66, Icons.add, color: Color(0xFFD0D5DD)),
+          child: const Icon(size: 66, Icons.add, color: AppColors.border),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         Text(
-          'Thêm',
-          style: TextStyle(
-            fontFamily: 'Nunito',
-            fontWeight: FontWeight.w700,
-            color: Color(0xFFD0D5DD),
-            fontSize: 14,
+          'Thêm hồ sơ',
+          style: AppTextStyle.bodySmallBold.copyWith(
+            color: AppColors.border,
           ),
         ),
       ],
