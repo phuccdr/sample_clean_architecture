@@ -23,6 +23,7 @@ abstract class AppColors {
   static const borderLight = Color(0xFFE5E5E5);
   static const disabled = Color(0xFFE5E5E5);
   static const disabledShadow = Color(0xFFD6D6D6);
+  static const overlayBackground = Color(0xFF000000);
 
   // Background variations
   static const backgroundLight = Color(0xFFF2F4F7);

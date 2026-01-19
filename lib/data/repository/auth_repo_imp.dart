@@ -8,7 +8,6 @@ import 'package:injectable/injectable.dart';
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImp implements AuthRepository {
   final ApiServices _apiService;
-
   AuthRepositoryImp(this._apiService);
 
   @override

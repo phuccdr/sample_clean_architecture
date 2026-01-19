@@ -1,6 +1,6 @@
 import 'package:demo/core/theme/app_colors.dart';
 import 'package:demo/core/theme/app_text_style.dart';
-import 'package:demo/core/widget/custom_button.dart';
+import 'package:demo/core/widget/button/custom_button.dart';
 import 'package:demo/presentation/entername/enter_name_cubit.dart';
 import 'package:demo/presentation/entername/enter_name_state.dart';
 import 'package:demo/shared/router.dart';

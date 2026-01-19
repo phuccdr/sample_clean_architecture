@@ -1,6 +1,6 @@
 import 'package:demo/core/theme/app_colors.dart';
 import 'package:demo/core/theme/app_text_style.dart';
-import 'package:demo/core/widget/custom_button.dart';
+import 'package:demo/core/widget/button/custom_button.dart';
 import 'package:demo/shared/router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -108,8 +108,9 @@ class _ChooseYearScreenState extends State<ChooseYearScreen> {
                       style: TextStyle(
                         fontFamily: 'Nunito',
                         fontSize: 20,
-                        fontWeight:
-                            isSelected ? FontWeight.w800 : FontWeight.w700,
+                        fontWeight: isSelected
+                            ? FontWeight.w800
+                            : FontWeight.w700,
                         color: isSelected
                             ? AppColors.primary
                             : AppColors.textSecondary,
@@ -130,7 +131,10 @@ class _ChooseYearScreenState extends State<ChooseYearScreen> {
               }),
               child: Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(width: 2, color: AppColors.borderLight),
                   borderRadius: BorderRadius.circular(12),

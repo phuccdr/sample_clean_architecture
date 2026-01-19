@@ -3,13 +3,16 @@ import 'package:demo/core/theme/app_text_style.dart';
 import 'package:demo/core/validator/password_validator.dart';
 import 'package:demo/core/validator/phone_number_validator.dart';
 import 'package:demo/core/widget/bottom_section.dart';
-import 'package:demo/core/widget/custom_button.dart';
-import 'package:demo/core/widget/custom_password_field.dart';
-import 'package:demo/core/widget/custom_text_field.dart';
+import 'package:demo/core/widget/button/custom_button.dart';
+import 'package:demo/core/widget/dialog/loading_dialog.dart';
+import 'package:demo/core/widget/text_field/custom_password_field.dart';
+import 'package:demo/core/widget/text_field/custom_text_field.dart';
 import 'package:demo/core/widget/error_text.dart';
 import 'package:demo/core/widget/two_text_span.dart';
+import 'package:demo/domain/usecase/login_use_case.dart';
 import 'package:demo/presentation/login/login_cubit.dart';
 import 'package:demo/presentation/login/login_state.dart';
+import 'package:demo/shared/di/app_module.dart';
 import 'package:demo/shared/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,8 +24,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final LoginUseCase loginUseCase = getIt<LoginUseCase>();
     return BlocProvider(
-      create: (context) => LoginCubit(),
+      create: (context) => LoginCubit(loginUseCase),
       child: Builder(
         builder: (context) {
           return BlocListener<LoginCubit, LoginState>(
@@ -30,7 +34,12 @@ class LoginScreen extends StatelessWidget {
                 previous.status != current.status,
             listener: (context, state) {
               if (state.status == FormzSubmissionStatus.success) {
+                context.pop();
                 context.push(AppRoutes.academyRecord);
+              } else if (state.status == FormzSubmissionStatus.inProgress) {
+                AppDialog.showLoadingDialog(context);
+              } else if (state.status == FormzSubmissionStatus.failure) {
+                context.pop();
               }
             },
             child: Scaffold(
@@ -143,59 +152,67 @@ class LoginScreen extends StatelessWidget {
       barrierDismissible: true,
       barrierColor: Colors.black.withValues(alpha: 0.5),
       builder: (context) {
-        return Center(
-          child: Stack(
-            children: [
-              Padding(
-                padding: EdgeInsetsGeometry.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
-                ),
-                child: Container(
-                  padding: EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(36),
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/ic_monkey_sad.png',
-                        width: 176,
-                      ),
-                      const SizedBox(height: 12),
-                      const Text('Thông báo', style: AppTextStyle.headerLarge),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'Đăng nhập bằng Facebook thất bại',
-                        style: AppTextStyle.bodySmallBold,
-                      ),
-                      const SizedBox(height: 24),
-                      CustomButton(
-                        text: 'Tôi đã hiểu',
-                        onPressed: () {
-                          context.pop();
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 0,
-                right: 16,
-                child: IconButton(
-                  onPressed: () => context.pop(),
-                  icon: Image.asset(
-                    'assets/images/ic_close_dialog.png',
-                    width: 48,
-                    height: 48,
+        return SafeArea(
+          child: Dialog(
+            insetPadding: EdgeInsets.symmetric(horizontal: 24),
+            backgroundColor: Colors.transparent,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsetsGeometry.only(right: 6, top: 6),
+                  child: Container(
+                    padding: EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(36),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/ic_monkey_sad.png',
+                          width: 176,
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Thông báo',
+                          style: AppTextStyle.headerLarge,
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Đăng nhập bằng Facebook thất bại',
+                          textAlign: TextAlign.center,
+                          style: AppTextStyle.bodySmallBold,
+                        ),
+                        const SizedBox(height: 24),
+                        CustomButton(
+                          text: 'Tôi đã hiểu',
+                          onPressed: () {
+                            context.pop();
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Positioned(
+                  top: -6,
+                  right: -6,
+                  child: Container(
+                    decoration: BoxDecoration(shape: BoxShape.circle),
+                    child: IconButton(
+                      onPressed: () => context.pop(),
+                      icon: Image.asset(
+                        'assets/images/ic_close_dialog.png',
+                        width: 48,
+                        height: 48,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

@@ -3,8 +3,8 @@ import 'package:demo/core/theme/app_text_style.dart';
 import 'package:demo/core/validator/confirm_password_validator.dart';
 import 'package:demo/core/validator/password_validator.dart';
 import 'package:demo/core/widget/bottom_section.dart';
-import 'package:demo/core/widget/custom_button.dart';
-import 'package:demo/core/widget/custom_password_field.dart';
+import 'package:demo/core/widget/button/custom_button.dart';
+import 'package:demo/core/widget/text_field/custom_password_field.dart';
 import 'package:demo/core/widget/error_text.dart';
 import 'package:demo/core/widget/two_text_span.dart';
 import 'package:demo/core/widget/valid_text.dart';
@@ -84,10 +84,10 @@ class CreatePasswordScreen extends StatelessWidget {
                   return CustomButton(
                     onPressed:
                         state.confirmPassword.isValid && state.password.isValid
-                            ? () {
-                                context.read<CreatePasswordCubit>().onSubmit();
-                              }
-                            : null,
+                        ? () {
+                            context.read<CreatePasswordCubit>().onSubmit();
+                          }
+                        : null,
                     text: 'Tiếp tục',
                   );
                 },
@@ -135,11 +135,10 @@ class PasswordTextField extends StatelessWidget {
           hintText: 'Nhập mật khẩu',
           errorWidget:
               state.password.displayError == PasswordValidationError.empty
-                  ? const ErrorText(errorText: 'Mật khẩu không được để trống')
-                  : state.password.displayError == PasswordValidationError.invalid
-                      ? const ErrorText(
-                          errorText: 'Mật khẩu phải có ít nhất 6 ký tự')
-                      : null,
+              ? const ErrorText(errorText: 'Mật khẩu không được để trống')
+              : state.password.displayError == PasswordValidationError.invalid
+              ? const ErrorText(errorText: 'Mật khẩu phải có ít nhất 6 ký tự')
+              : null,
           validWidget: state.password.isValid
               ? const ValidText(validText: 'Mật khẩu khả dụng.')
               : null,
@@ -161,13 +160,14 @@ class ConfirmPasswordTextField extends StatelessWidget {
               .read<CreatePasswordCubit>()
               .onConfirmPasswordChange(value),
           hintText: 'Nhập lại mật khẩu',
-          errorWidget: state.confirmPassword.displayError ==
+          errorWidget:
+              state.confirmPassword.displayError ==
                   ConfirmPasswordValidationError.empty
               ? const ErrorText(errorText: 'Vui lòng nhập lại mật khẩu')
               : state.confirmPassword.displayError ==
-                      ConfirmPasswordValidationError.mismatch
-                  ? const ErrorText(errorText: 'Mật khẩu xác nhận không khớp')
-                  : null,
+                    ConfirmPasswordValidationError.mismatch
+              ? const ErrorText(errorText: 'Mật khẩu xác nhận không khớp')
+              : null,
           validWidget: state.confirmPassword.isValid
               ? const ValidText(validText: 'Mật khẩu trùng khớp')
               : null,

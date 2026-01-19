@@ -10,10 +10,10 @@ class AddItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: const EdgeInsets.all(24),
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: AppColors.backgroundLight,
             borderRadius: BorderRadius.circular(32),
@@ -23,9 +23,7 @@ class AddItemWidget extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           'Thêm hồ sơ',
-          style: AppTextStyle.bodySmallBold.copyWith(
-            color: AppColors.border,
-          ),
+          style: AppTextStyle.bodySmallBold.copyWith(color: AppColors.border),
         ),
       ],
     );

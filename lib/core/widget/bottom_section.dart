@@ -1,5 +1,5 @@
 import 'package:demo/core/theme/app_colors.dart';
-import 'package:demo/core/widget/social_button.dart';
+import 'package:demo/core/widget/button/social_button.dart';
 import 'package:flutter/material.dart';
 
 class BottomSection extends StatelessWidget {
