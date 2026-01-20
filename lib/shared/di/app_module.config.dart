@@ -18,9 +18,6 @@ import 'package:demo/domain/usecase/get_academy_record.dart' as _i540;
 import 'package:demo/domain/usecase/login_use_case.dart' as _i696;
 import 'package:demo/presentation/academy_record/academy_record_cubit.dart'
     as _i686;
-import 'package:demo/presentation/create_password/create_password_cubit.dart'
-    as _i520;
-import 'package:demo/presentation/entername/enter_name_cubit.dart' as _i142;
 import 'package:demo/presentation/login/login_cubit.dart' as _i550;
 import 'package:demo/shared/di/app_module.dart' as _i182;
 import 'package:dio/dio.dart' as _i361;
@@ -35,8 +32,6 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
-    gh.factory<_i520.CreatePasswordCubit>(() => _i520.CreatePasswordCubit());
-    gh.factory<_i142.EnterNameCubit>(() => _i142.EnterNameCubit());
     gh.lazySingleton<_i361.Dio>(() => registerModule.dio);
     gh.lazySingleton<_i17.ApiServices>(() => _i17.ApiServices(gh<_i361.Dio>()));
     gh.lazySingleton<_i660.AcademyRecordRepo>(

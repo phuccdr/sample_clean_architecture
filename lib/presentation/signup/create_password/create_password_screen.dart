@@ -4,12 +4,12 @@ import 'package:demo/core/validator/confirm_password_validator.dart';
 import 'package:demo/core/validator/password_validator.dart';
 import 'package:demo/core/widget/bottom_section.dart';
 import 'package:demo/core/widget/button/custom_button.dart';
-import 'package:demo/core/widget/text_field/custom_password_field.dart';
 import 'package:demo/core/widget/error_text.dart';
+import 'package:demo/core/widget/text_field/custom_password_field.dart';
 import 'package:demo/core/widget/two_text_span.dart';
 import 'package:demo/core/widget/valid_text.dart';
-import 'package:demo/presentation/create_password/create_password_cubit.dart';
-import 'package:demo/presentation/create_password/create_password_state.dart';
+import 'package:demo/presentation/signup/signup_cubit.dart';
+import 'package:demo/presentation/signup/signup_state.dart';
 import 'package:demo/shared/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,27 +21,19 @@ class CreatePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CreatePasswordCubit(),
-      child: Builder(
-        builder: (context) {
-          return BlocListener<CreatePasswordCubit, CreatePasswordState>(
-            listenWhen: (previous, current) =>
-                previous.status != current.status,
-            listener: (context, state) {
-              if (state.status == FormzSubmissionStatus.success) {
-                context.go(AppRoutes.greetMonkey);
-              }
-            },
-            child: Scaffold(
-              appBar: _buildAppBar(context),
-              body: GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: SingleChildScrollView(child: _buildBody(context)),
-              ),
-            ),
-          );
-        },
+    return BlocListener<SignupCubit, SignupState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status == FormzSubmissionStatus.success) {
+          context.go(AppRoutes.greetMonkey);
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(child: _buildBody(context)),
+        ),
       ),
     );
   }
@@ -79,13 +71,14 @@ class CreatePasswordScreen extends StatelessWidget {
               const SizedBox(height: 16),
               const ConfirmPasswordTextField(),
               const SizedBox(height: 32),
-              BlocBuilder<CreatePasswordCubit, CreatePasswordState>(
+              BlocBuilder<SignupCubit, SignupState>(
                 builder: (context, state) {
                   return CustomButton(
                     onPressed:
-                        state.confirmPassword.isValid && state.password.isValid
+                        state.confirmPasswordValidator.isValid &&
+                            state.passwordValidator.isValid
                         ? () {
-                            context.read<CreatePasswordCubit>().onSubmit();
+                            context.push(AppRoutes.greetMonkey);
                           }
                         : null,
                     text: 'Tiếp tục',
@@ -127,19 +120,21 @@ class PasswordTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreatePasswordCubit, CreatePasswordState>(
+    return BlocBuilder<SignupCubit, SignupState>(
       builder: (context, state) {
         return CustomPasswordField(
           onChanged: (value) =>
-              context.read<CreatePasswordCubit>().onPasswordChange(value),
+              context.read<SignupCubit>().onPasswordChange(value),
           hintText: 'Nhập mật khẩu',
           errorWidget:
-              state.password.displayError == PasswordValidationError.empty
+              state.passwordValidator.displayError ==
+                  PasswordValidationError.empty
               ? const ErrorText(errorText: 'Mật khẩu không được để trống')
-              : state.password.displayError == PasswordValidationError.invalid
+              : state.passwordValidator.displayError ==
+                    PasswordValidationError.invalid
               ? const ErrorText(errorText: 'Mật khẩu phải có ít nhất 6 ký tự')
               : null,
-          validWidget: state.password.isValid
+          validWidget: state.passwordValidator.isValid
               ? const ValidText(validText: 'Mật khẩu khả dụng.')
               : null,
         );
@@ -153,22 +148,21 @@ class ConfirmPasswordTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreatePasswordCubit, CreatePasswordState>(
+    return BlocBuilder<SignupCubit, SignupState>(
       builder: (context, state) {
         return CustomPasswordField(
-          onChanged: (value) => context
-              .read<CreatePasswordCubit>()
-              .onConfirmPasswordChange(value),
+          onChanged: (value) =>
+              context.read<SignupCubit>().onConfirmPasswordChange(value),
           hintText: 'Nhập lại mật khẩu',
           errorWidget:
-              state.confirmPassword.displayError ==
+              state.confirmPasswordValidator.displayError ==
                   ConfirmPasswordValidationError.empty
               ? const ErrorText(errorText: 'Vui lòng nhập lại mật khẩu')
-              : state.confirmPassword.displayError ==
+              : state.confirmPasswordValidator.displayError ==
                     ConfirmPasswordValidationError.mismatch
               ? const ErrorText(errorText: 'Mật khẩu xác nhận không khớp')
               : null,
-          validWidget: state.confirmPassword.isValid
+          validWidget: state.confirmPasswordValidator.isValid
               ? const ValidText(validText: 'Mật khẩu trùng khớp')
               : null,
         );

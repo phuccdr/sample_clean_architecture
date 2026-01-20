@@ -14,7 +14,7 @@ class UpdateLearningData extends StatelessWidget {
             const SizedBox(height: 48),
             Text(
               'Monkey đang cập nhật\ndữ liệu học tập của bé',
-              style: AppTextStyle.headerStyle,
+              style: AppTextStyle.headerLarge,
             ),
             const SizedBox(height: 108),
           ],

@@ -16,7 +16,7 @@ class LoginCubit extends Cubit<LoginState> {
     final email = PhoneNumberValidator.dirty(value);
     emit(
       state.copyWith(
-        email: email,
+        phoneNumber: email,
         isValid: Formz.validate([email, state.password]),
       ),
     );
@@ -38,7 +38,7 @@ class LoginCubit extends Cubit<LoginState> {
     final isValid = Formz.validate([email, password]);
     emit(
       state.copyWith(
-        email: email,
+        phoneNumber: email,
         password: password,
         isValid: isValid,
         status: FormzSubmissionStatus.initial,

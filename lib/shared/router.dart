@@ -1,11 +1,14 @@
 import 'package:demo/presentation/academy_record/academy_record_screen.dart';
-import 'package:demo/presentation/choose_year_of_birth/choose_year_screen.dart';
-import 'package:demo/presentation/create_password/create_password_screen.dart';
-import 'package:demo/presentation/enter_phone_number/enter_phone_number_screen.dart';
-import 'package:demo/presentation/entername/enter_name_screen.dart';
-import 'package:demo/presentation/greet_monkey/greet_monkey_screen.dart';
+import 'package:demo/presentation/signup/choose_year_of_birth/choose_year_screen.dart';
+import 'package:demo/presentation/signup/create_password/create_password_screen.dart';
+import 'package:demo/presentation/signup/enter_phone_number/enter_phone_number_screen.dart';
+import 'package:demo/presentation/signup/entername/enter_name_screen.dart';
+import 'package:demo/presentation/signup/greet_monkey/greet_monkey_screen.dart';
 import 'package:demo/presentation/login/login_screen.dart';
-import 'package:demo/presentation/select_skill_english/select_skill_english_screen.dart';
+import 'package:demo/presentation/signup/select_level_english/select_level_english_screen.dart';
+import 'package:demo/presentation/signup/signup_cubit.dart';
+import 'package:demo/presentation/signup/update_learning_data/update_learning_data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class AppRoutes {
@@ -17,6 +20,7 @@ abstract class AppRoutes {
   static const selectSkillEnglish = '/selectskillenglish';
   static const greetMonkey = '/greetmonkey';
   static const enterName = '/entername';
+  static const updateLearningData = '/updatelearningdata';
 }
 
 final appRouter = GoRouter(
@@ -30,32 +34,40 @@ final appRouter = GoRouter(
       path: AppRoutes.academyRecord,
       builder: (context, state) => const AcademyRecordScreen(),
     ),
-    GoRoute(
-      path: AppRoutes.createPassword,
-      builder: (context, state) => const CreatePasswordScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.enterPhoneNumber,
-      builder: (context, state) => const EnterPhoneNumberScreen(),
-    ),
-    GoRoute(
-      path: '${AppRoutes.chooseYearOfBirth}/:name',
-      builder: (context, state) {
-        final name = state.pathParameters['name'] ?? '';
-        return ChooseYearScreen(name: name);
+    ShellRoute(
+      builder: (context, state, child) {
+        return BlocProvider(create: (_) => SignupCubit(), child: child);
       },
-    ),
-    GoRoute(
-      path: AppRoutes.selectSkillEnglish,
-      builder: (context, state) => const SelectSkillEnglishScreen(),
-    ),
-    GoRoute(
-      path: AppRoutes.greetMonkey,
-      builder: (context, state) => const GreetMonkey(),
-    ),
-    GoRoute(
-      path: AppRoutes.enterName,
-      builder: (context, state) => const EnterNameScreen(),
+      routes: [
+        GoRoute(
+          path: AppRoutes.enterName,
+          builder: (context, state) => const EnterNameScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.selectSkillEnglish,
+          builder: (context, state) => const SelectLevelEnglishScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.createPassword,
+          builder: (context, state) => const CreatePasswordScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.enterPhoneNumber,
+          builder: (context, state) => const EnterPhoneNumberScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.chooseYearOfBirth,
+          builder: (context, state) => const ChooseYearScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.greetMonkey,
+          builder: (context, state) => const GreetMonkey(),
+        ),
+        GoRoute(
+          path: AppRoutes.updateLearningData,
+          builder: (context, state) => const UpdateLearningData(),
+        ),
+      ],
     ),
   ],
 );

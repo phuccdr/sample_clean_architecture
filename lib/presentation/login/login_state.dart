@@ -19,13 +19,13 @@ class LoginState extends Equatable {
   List<Object?> get props => [phoneNumber, isValid, password, status];
 
   LoginState copyWith({
-    PhoneNumberValidator? email,
+    PhoneNumberValidator? phoneNumber,
     bool? isValid,
     PasswordValidator? password,
     FormzSubmissionStatus? status,
   }) {
     return LoginState(
-      phoneNumber: email ?? phoneNumber,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
       isValid: isValid ?? this.isValid,
       password: password ?? this.password,
       status: status ?? this.status,

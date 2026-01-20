@@ -1,5 +1,6 @@
 import 'package:demo/data/network/model/academy_record.dart';
 import 'package:demo/data/network/model/login.dart';
+import 'package:demo/domain/entities/register_data.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
@@ -29,6 +30,21 @@ class ApiServices {
           .toList();
       print('hello $academyRecords');
       return academyRecords;
+    } on DioException catch (e) {
+      final message = e.response?.data?['message'] ?? 'Error';
+      throw Exception(message);
+    } catch (e) {
+      throw Exception('Unexpected error occurred');
+    }
+  }
+
+  Future<AcademyRecord> registerAcademyRecord(RegisterData registerData) async {
+    try {
+      final reponse = await _dio.post('/academyrecord', data: registerData);
+      final AcademyRecord academyRecord = (reponse.data as List).first.map(
+        (e) => AcademyRecord.fromJson(e),
+      );
+      return academyRecord;
     } on DioException catch (e) {
       final message = e.response?.data?['message'] ?? 'Error';
       throw Exception(message);

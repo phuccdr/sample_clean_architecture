@@ -4,7 +4,7 @@ import 'package:demo/core/validator/password_validator.dart';
 import 'package:demo/core/validator/phone_number_validator.dart';
 import 'package:demo/core/widget/bottom_section.dart';
 import 'package:demo/core/widget/button/custom_button.dart';
-import 'package:demo/core/widget/dialog/loading_dialog.dart';
+import 'package:demo/core/widget/dialog/app_dialog.dart';
 import 'package:demo/core/widget/text_field/custom_password_field.dart';
 import 'package:demo/core/widget/text_field/custom_text_field.dart';
 import 'package:demo/core/widget/error_text.dart';
