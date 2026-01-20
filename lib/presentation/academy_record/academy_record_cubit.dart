@@ -7,18 +7,17 @@ import 'package:injectable/injectable.dart';
 @injectable
 class AcademyRecordCubit extends Cubit<AcademyRecordState> {
   AcademyRecordCubit(this._getAcademyRecordUseCase)
-    : super(AcademyRecordState());
+    : super(const AcademyRecordInitial());
   final GetAcademyRecordUseCase _getAcademyRecordUseCase;
 
   Future<void> getAcademyRecord() async {
-    emit(AcademyRecordLoading());
-    emit(AcademyRecordInitial());
+    emit(const AcademyRecordLoading());
     final response = await _getAcademyRecordUseCase.execute();
     switch (response.status) {
       case Status.Success:
-        emit(AcademyRecordSuccess(response.data));
+        emit(AcademyRecordSuccess(response.data ?? []));
       case Status.Loading:
-        emit(AcademyRecordLoading());
+        emit(const AcademyRecordLoading());
       case Status.Failed:
         emit(AcademyRecordFail(response.error ?? 'Hồ sơ không tồn tại'));
     }

@@ -9,7 +9,6 @@ import 'package:demo/core/widget/text_field/custom_password_field.dart';
 import 'package:demo/core/widget/text_field/custom_text_field.dart';
 import 'package:demo/core/widget/error_text.dart';
 import 'package:demo/core/widget/two_text_span.dart';
-import 'package:demo/domain/usecase/login_use_case.dart';
 import 'package:demo/presentation/login/login_cubit.dart';
 import 'package:demo/presentation/login/login_state.dart';
 import 'package:demo/shared/di/app_module.dart';
@@ -24,33 +23,36 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginUseCase loginUseCase = getIt<LoginUseCase>();
     return BlocProvider(
-      create: (context) => LoginCubit(loginUseCase),
-      child: Builder(
-        builder: (context) {
-          return BlocListener<LoginCubit, LoginState>(
-            listenWhen: (previous, current) =>
-                previous.status != current.status,
-            listener: (context, state) {
-              if (state.status == FormzSubmissionStatus.success) {
-                context.pop();
-                context.push(AppRoutes.academyRecord);
-              } else if (state.status == FormzSubmissionStatus.inProgress) {
-                AppDialog.showLoadingDialog(context);
-              } else if (state.status == FormzSubmissionStatus.failure) {
-                context.pop();
-              }
-            },
-            child: Scaffold(
-              appBar: _buildAppBar(),
-              body: GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: SingleChildScrollView(child: _buildBody(context)),
-              ),
-            ),
-          );
-        },
+      create: (context) => getIt<LoginCubit>(),
+      child: const _LoginView(),
+    );
+  }
+}
+
+class _LoginView extends StatelessWidget {
+  const _LoginView();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<LoginCubit, LoginState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status == FormzSubmissionStatus.success) {
+          context.pop();
+          context.push(AppRoutes.academyRecord);
+        } else if (state.status == FormzSubmissionStatus.inProgress) {
+          AppDialog.showLoadingDialog(context);
+        } else if (state.status == FormzSubmissionStatus.failure) {
+          context.pop();
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(child: _buildBody(context)),
+        ),
       ),
     );
   }
@@ -60,9 +62,7 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-        onPressed: () {
-          //navigator back
-        },
+        onPressed: () {},
       ),
     );
   }
@@ -126,7 +126,7 @@ class LoginScreen extends StatelessWidget {
               ),
               const SizedBox(height: 72),
               BottomSection(
-                onFacebookClick: () => showLoginFacebookFail(context),
+                onFacebookClick: () => _showLoginFacebookFail(context),
               ),
               const SizedBox(height: 24),
               TwoTextSpan(
@@ -146,7 +146,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void showLoginFacebookFail(BuildContext context) {
+  void _showLoginFacebookFail(BuildContext context) {
     showDialog(
       context: context,
       barrierDismissible: true,
