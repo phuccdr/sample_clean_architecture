@@ -11,7 +11,7 @@ final GetIt getIt = GetIt.instance;
 void configureDependencies() => getIt.init();
 
 @module
-abstract class RegisterModule {
+abstract class NetworkModule {
   @lazySingleton
   Dio get dio =>
       Dio(

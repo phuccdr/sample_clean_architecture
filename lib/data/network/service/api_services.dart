@@ -28,7 +28,6 @@ class ApiServices {
       final List<AcademyRecord> academyRecords = (reponse.data as List)
           .map((e) => AcademyRecord.fromJson(e))
           .toList();
-      print('hello $academyRecords');
       return academyRecords;
     } on DioException catch (e) {
       final message = e.response?.data?['message'] ?? 'Error';
@@ -40,10 +39,11 @@ class ApiServices {
 
   Future<AcademyRecord> registerAcademyRecord(RegisterData registerData) async {
     try {
-      final reponse = await _dio.post('/academyrecord', data: registerData);
-      final AcademyRecord academyRecord = (reponse.data as List).first.map(
-        (e) => AcademyRecord.fromJson(e),
+      final reponse = await _dio.post(
+        '/academyrecord',
+        data: registerData.toJson(),
       );
+      final AcademyRecord academyRecord = AcademyRecord.fromJson(reponse.data);
       return academyRecord;
     } on DioException catch (e) {
       final message = e.response?.data?['message'] ?? 'Error';

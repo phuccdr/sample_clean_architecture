@@ -2,11 +2,17 @@ import 'package:demo/core/validator/confirm_password_validator.dart';
 import 'package:demo/core/validator/name_validator.dart';
 import 'package:demo/core/validator/password_validator.dart';
 import 'package:demo/core/validator/phone_number_validator.dart';
+import 'package:demo/domain/entities/register_data.dart';
+import 'package:demo/domain/usecase/register_use_case.dart';
 import 'package:demo/presentation/signup/signup_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class SignupCubit extends Cubit<SignupState> {
-  SignupCubit() : super(const SignupState());
+  SignupCubit(this._registerUseCase) : super(const SignupState());
+  final RegisterUseCase _registerUseCase;
 
   void onPasswordChange(String value) {
     final password = PasswordValidator.dirty(value);
@@ -56,5 +62,23 @@ class SignupCubit extends Cubit<SignupState> {
 
   void onResetYearPage() {
     emit(state.copyWith(yearPageIndex: 0));
+  }
+
+  void onRegister() async {
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    final RegisterData registerData = RegisterData(
+      phoneNumber: state.phoneNumberValidator.value,
+      englishLevel: state.levelEnglish,
+      yearOfBirth: state.birthOfYear,
+      password: state.passwordValidator.value,
+      name: state.nameValidator.value,
+    );
+    final response = await _registerUseCase.execute(registerData).run();
+    print('okela +$response');
+    response.fold(
+      (failure) => emit(state.copyWith(status: FormzSubmissionStatus.failure)),
+      (academyRecord) =>
+          emit(state.copyWith(status: FormzSubmissionStatus.success)),
+    );
   }
 }

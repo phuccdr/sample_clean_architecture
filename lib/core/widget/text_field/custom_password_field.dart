@@ -63,14 +63,16 @@ class CustomPasswordFieldState extends State<CustomPasswordField> {
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: _borderColor),
+              borderSide: BorderSide(color: _borderColor, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: _borderColor),
+              borderSide: BorderSide(color: _borderColor, width: 1),
             ),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 16,
+            ),
           ),
         ),
         if (widget.errorWidget != null) widget.errorWidget!,

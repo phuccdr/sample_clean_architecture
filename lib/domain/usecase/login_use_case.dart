@@ -1,6 +1,5 @@
-import 'package:demo/data/network/model/login.dart';
 import 'package:demo/domain/repository/auth_repo.dart';
-import 'package:demo/shared/result.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -9,9 +8,10 @@ class LoginUseCase {
 
   LoginUseCase(this._authRepository);
 
-  Future<Result<String>> execute(String userName, String password) {
-    return _authRepository.login(
-      LoginData(userName: userName, password: password),
-    );
+  TaskEither<String, String> execute(String userName, String password) {
+    return TaskEither.tryCatch(() async {
+      final response = await _authRepository.login(userName, password);
+      return response;
+    }, (error, stackTrace) => error.toString());
   }
 }

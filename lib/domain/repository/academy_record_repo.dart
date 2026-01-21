@@ -1,10 +1,7 @@
 import 'package:demo/data/network/model/academy_record.dart';
 import 'package:demo/domain/entities/register_data.dart';
-import 'package:demo/shared/result.dart';
 
 abstract class AcademyRecordRepo {
-  Future<Result<List<AcademyRecord>>> getAcademyRecords();
-  Future<Result<AcademyRecord>> registerAcademyRecord(
-    RegisterData registerData,
-  );
+  Future<List<AcademyRecord>> getAcademyRecords();
+  Future<AcademyRecord> registerAcademyRecord(RegisterData registerData);
 }

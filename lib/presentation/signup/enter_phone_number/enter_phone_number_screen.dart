@@ -10,7 +10,6 @@ import 'package:demo/presentation/signup/signup_state.dart';
 import 'package:demo/shared/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
 
 class EnterPhoneNumberScreen extends StatelessWidget {
@@ -18,28 +17,20 @@ class EnterPhoneNumberScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignupCubit, SignupState>(
-      listenWhen: (previous, current) => previous.status != current.status,
-      listener: (context, state) {
-        if (state.status == FormzSubmissionStatus.success) {
-          context.push(AppRoutes.createPassword);
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: AppColors.textPrimary,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.textPrimary,
           ),
         ),
-        body: SingleChildScrollView(child: _buildBody(context)),
       ),
+      body: SingleChildScrollView(child: _buildBody(context)),
     );
   }
 

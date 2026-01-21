@@ -14,11 +14,13 @@ import 'package:demo/data/repository/academy_record_repo_imp.dart' as _i192;
 import 'package:demo/data/repository/auth_repo_imp.dart' as _i777;
 import 'package:demo/domain/repository/academy_record_repo.dart' as _i660;
 import 'package:demo/domain/repository/auth_repo.dart' as _i747;
-import 'package:demo/domain/usecase/get_academy_record.dart' as _i540;
+import 'package:demo/domain/usecase/get_academy_record_use_case.dart' as _i225;
 import 'package:demo/domain/usecase/login_use_case.dart' as _i696;
+import 'package:demo/domain/usecase/register_use_case.dart' as _i629;
 import 'package:demo/presentation/academy_record/academy_record_cubit.dart'
     as _i686;
 import 'package:demo/presentation/login/login_cubit.dart' as _i550;
+import 'package:demo/presentation/signup/signup_cubit.dart' as _i945;
 import 'package:demo/shared/di/app_module.dart' as _i182;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
@@ -31,8 +33,8 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
-    final registerModule = _$RegisterModule();
-    gh.lazySingleton<_i361.Dio>(() => registerModule.dio);
+    final networkModule = _$NetworkModule();
+    gh.lazySingleton<_i361.Dio>(() => networkModule.dio);
     gh.lazySingleton<_i17.ApiServices>(() => _i17.ApiServices(gh<_i361.Dio>()));
     gh.lazySingleton<_i660.AcademyRecordRepo>(
       () => _i192.AcademyRecordRepoImp(gh<_i17.ApiServices>()),
@@ -43,17 +45,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i696.LoginUseCase>(
       () => _i696.LoginUseCase(gh<_i747.AuthRepository>()),
     );
-    gh.factory<_i540.GetAcademyRecordUseCase>(
-      () => _i540.GetAcademyRecordUseCase(gh<_i660.AcademyRecordRepo>()),
+    gh.factory<_i225.GetAcademyRecordUseCase>(
+      () => _i225.GetAcademyRecordUseCase(gh<_i660.AcademyRecordRepo>()),
     );
-    gh.factory<_i686.AcademyRecordCubit>(
-      () => _i686.AcademyRecordCubit(gh<_i540.GetAcademyRecordUseCase>()),
+    gh.factory<_i629.RegisterUseCase>(
+      () => _i629.RegisterUseCase(gh<_i660.AcademyRecordRepo>()),
     );
     gh.factory<_i550.LoginCubit>(
       () => _i550.LoginCubit(gh<_i696.LoginUseCase>()),
+    );
+    gh.factory<_i945.SignupCubit>(
+      () => _i945.SignupCubit(gh<_i629.RegisterUseCase>()),
+    );
+    gh.factory<_i686.AcademyRecordCubit>(
+      () => _i686.AcademyRecordCubit(gh<_i225.GetAcademyRecordUseCase>()),
     );
     return this;
   }
 }
 
-class _$RegisterModule extends _i182.RegisterModule {}
+class _$NetworkModule extends _i182.NetworkModule {}

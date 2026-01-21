@@ -1,6 +1,7 @@
 import 'package:demo/core/theme/app_colors.dart';
 import 'package:demo/core/theme/app_text_style.dart';
 import 'package:demo/core/widget/button/custom_button.dart';
+import 'package:demo/presentation/signup/choose_year_of_birth/year_item.dart';
 import 'package:demo/presentation/signup/signup_cubit.dart';
 import 'package:demo/presentation/signup/signup_state.dart';
 import 'package:demo/shared/router.dart';
@@ -132,46 +133,6 @@ class ChooseYearScreen extends StatelessWidget {
       onPressed: state.isYearSelected
           ? () => context.push(AppRoutes.selectSkillEnglish)
           : null,
-    );
-  }
-}
-
-class YearItem extends StatelessWidget {
-  const YearItem({
-    super.key,
-    required this.year,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final int year;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.selectedLight : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.borderLight,
-            width: 2,
-          ),
-        ),
-        child: Text(
-          year.toString(),
-          style: TextStyle(
-            fontFamily: 'Nunito',
-            fontSize: 20,
-            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w700,
-            color: isSelected ? AppColors.primary : AppColors.textSecondary,
-          ),
-        ),
-      ),
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:demo/core/validator/password_validator.dart';
 import 'package:demo/core/validator/phone_number_validator.dart';
 import 'package:demo/domain/usecase/login_use_case.dart';
 import 'package:demo/presentation/login/login_state.dart';
-import 'package:demo/shared/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:injectable/injectable.dart';
@@ -46,15 +45,14 @@ class LoginCubit extends Cubit<LoginState> {
     );
     if (isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-      final result = await _loginUseCase.execute(email.value, password.value);
-      switch (result.status) {
-        case Status.Success:
-          emit(state.copyWith(status: FormzSubmissionStatus.success));
-        case Status.Loading:
-          emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-        case Status.Failed:
-          emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      }
+      final result = await _loginUseCase
+          .execute(email.value, password.value)
+          .run();
+      result.fold(
+        (failure) =>
+            emit(state.copyWith(status: FormzSubmissionStatus.failure)),
+        (user) => emit(state.copyWith(status: FormzSubmissionStatus.success)),
+      );
     }
   }
 }
